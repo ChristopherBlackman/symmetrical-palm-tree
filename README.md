@@ -2,9 +2,9 @@
 - this is the testing library for game jam 2017,
 
 # Plans to implement
-[ ] get a connection with some kind of socket server
-[ ] create python socket io instead of a node js 
-[ ] connect the python socket io with a twitch irc bot 
+-[x] get a connection with some kind of socket server
+-[ ] create python socket io instead of a node js 
+-[ ] connect the python socket io with a twitch irc bot 
 
 
 Here is an example on how to setup a socket io connection in the Superpowers library as of 2017
