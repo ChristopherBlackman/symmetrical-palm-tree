@@ -9,7 +9,7 @@
 
 Here is an example on how to setup a socket io connection in the Superpowers library as of 2017
 
-'''ts
+```ts
 
 class ScriptBehavior extends Sup.Behavior {
     x = io( 'http://localhost:2406/' );
@@ -29,4 +29,4 @@ class ScriptBehavior extends Sup.Behavior {
 }
 Sup.registerBehavior(ScriptBehavior);
 
-'''
+```
