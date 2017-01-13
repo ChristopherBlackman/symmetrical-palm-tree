@@ -6,6 +6,17 @@
 - [x] get a connection to the twitch irc servers and authenticate
 - [x] merge both programs
 
+# Install
+- node 
+- python 2.7 >
+- g++
+- Setting up the twitch bot requires one to edit the config_dist.js file and to fill in channel, username and password( not your actual password)
+
+```bash
+# cd into js
+npm install 
+node irc.js
+```
 
 Here is an example on how to setup a socket io connection in the Superpowers library as of 2017
 
