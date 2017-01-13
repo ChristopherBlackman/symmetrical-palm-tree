@@ -5,7 +5,7 @@
 console.log("welcome to logging bot 2.0");
 
 var irc = require('irc');
-var clients = require('./app');
+var clients = require('./clients');
 var config = require('./config');
 
 /* init method */
