@@ -13,37 +13,20 @@ function handler(req,res){
 };
 
 
-/* array of all sockets that are connected */
-var clients = [];
+clients = [];
 
 /* connection handler for any socket trying to connect to the server */
 io.on("connection", function(socket){
 	console.log("Got a connection");
 
-    /* purpose : this shoould be used once on connection to the socket
-     *           adds the user and socket to the active clients and broadcasts to all other sockets that this user has joined
-     * input   : data = "a_user_name"
-     */
 	socket.on("intro",function(data){
-
         let msg = data + ' has connected to the room';
-        /* initializa the socket infomation and add to the clients array */
 		socket.username = data;
         clients.push(socket);
-        socket.emit('message',msg);
-        socket.broadcast.emit('message',msg);
-
-
-        console.log(msg);
 	});
 
-    /* purpose  : this should send a message to all in the chat room, if one has blocked this client name then they will not see this sockets username
-     * input    : data = {username:"a_user_name", message:"a long message here"}
-     */
 	socket.on("message", function(data){
 		console.log(socket.username,"sent global message: ",data);
-        var msg = timestamp()+", "+socket.username+": "+data;
-        socket.broadcast.emit('message',msg);
 	});
 
     /* purpose  : on disconnect remove the user from the client list
@@ -51,17 +34,39 @@ io.on("connection", function(socket){
      */
 	socket.on("disconnect", function(){
 		console.log(socket.username,"disconnected");
-		io.emit("message", timestamp()+": "+socket.username+" disconnected.");
         clients = clients.filter(function(element){ return element !== socket});
 	});
 
 });
 
-/* function : timestamp
- * purpose  : gets the current data on the server
- * input    : none
- * return: date
+
+
+
+
+/*
+ * DO NOT SEND MORE THAN 20 MSG/30 SEC... 8 HOUR BAN HAMMER
  */
-function timestamp(){
-	return new Date().toLocaleTimeString();
-}
+
+console.log("welcome to logging bot 2.0");
+
+var irc = require('irc');
+var config = require('./config');
+
+/* init method */
+var client = new irc.Client(config.irc.server, config.account.username, {
+    channels: config.irc.channels,
+    debug:false,
+    password: config.account.password,
+    username: config.account.username,
+});
+
+/* get messages in the twitch chat */
+client.addListener('message', function (from, to, message) {
+    clients.map(function(socket){socket.emit('message',message)});
+    console.log(from,': ',message);
+});
+
+/*needed, when weird commands are sent to this server */
+client.addListener('error', function(message) {
+    console.log('error: ', message);
+});

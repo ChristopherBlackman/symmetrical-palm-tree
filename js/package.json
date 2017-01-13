@@ -4,6 +4,7 @@
   "description": "Test bench for using socket IO in super powers",
   "main": "app.js",
   "dependencies": {
+    "irc": "^0.5.2",
     "mime-types": "^2.1.13",
     "socket.io": "^1.7.2",
     "url": "^0.11.0"
